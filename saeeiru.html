@@ -1,0 +1,460 @@
+<!DOCTYPE html><html dir="rtl" lang="fa" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>انجمن علمی مهندسی برق | دانشگاه بین‌المللی امام رضا(ع)</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            vazir: ['Vazirmatn', 'sans-serif'],
+            space: ['Space Grotesk', 'sans-serif'],
+          },
+          colors: {
+            cyber: {
+              bg: '#06080e',
+              deep: '#0b101c',
+              cyan: '#00e5ff',
+              blue: '#0099ff',
+              purple: '#b537f2',
+              purpleLight: '#d946ef',
+              border: 'rgba(0, 229, 255, 0.25)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: #05070e;
+      color: #f1f5f9;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Ambient Circuit Background Gradients */
+    .circuit-bg {
+      background-color: #05070e;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 229, 255, 0.14) 0%, transparent 60%),
+        radial-gradient(circle at 10% 40%, rgba(181, 55, 242, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 70%, rgba(0, 153, 255, 0.09) 0%, transparent 50%),
+        radial-gradient(circle at 50% 100%, rgba(0, 229, 255, 0.08) 0%, transparent 50%);
+    }
+
+    /* SVG subtle PCB traces grid */
+    .pcb-grid {
+      background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 30 H 40 V 70 H 80 V 120 M 120 40 H 90 V 10 H 60 M 30 120 V 90 H 0 M 90 90 A 4 4 0 1 0 90 98 A 4 4 0 1 0 90 90 Z M 30 30 A 3 3 0 1 0 30 36 A 3 3 0 1 0 30 30 Z M 60 70 A 3 3 0 1 0 60 76 A 3 3 0 1 0 60 70 Z' fill='none' stroke='%2300e5ff' stroke-width='0.6' stroke-opacity='0.05'/%3E%3C/svg%3E");
+    }
+
+    /* Glassmorphism Classes */
+    .glass-card {
+      background: rgba(13, 20, 35, 0.7);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(0, 229, 255, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      cursor: pointer;
+      pointer-events: auto !important;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.35), rgba(181, 55, 242, 0.15), transparent 70%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.65;
+      transition: opacity 0.3s ease;
+    }
+
+    .glass-card:hover {
+      background: rgba(16, 26, 48, 0.88);
+      border-color: rgba(0, 229, 255, 0.55);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px -6px rgba(0, 229, 255, 0.22), 0 0 20px rgba(0, 229, 255, 0.15);
+    }
+
+    .glass-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Card Glow highlight */
+    .neon-text-glow {
+      text-shadow: 0 0 12px rgba(0, 229, 255, 0.7), 0 0 24px rgba(0, 229, 255, 0.3);
+    }
+
+    /* Subtle pulse animation */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.45; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.03); }
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 4s infinite ease-in-out;
+    }
+
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0px) translateX(0px); }
+      50% { transform: translateY(-8px) translateX(4px); }
+    }
+    .animate-float {
+      animation: floatParticle 5s ease-in-out infinite;
+    }
+
+    /* Smooth entrance animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Stagger children delays */
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+    .delay-3 { animation-delay: 0.24s; }
+    .delay-4 { animation-delay: 0.32s; }
+    .delay-5 { animation-delay: 0.40s; }
+    .delay-6 { animation-delay: 0.48s; }
+    .delay-7 { animation-delay: 0.56s; }
+    .delay-8 { animation-delay: 0.64s; }
+    .delay-9 { animation-delay: 0.72s; }
+  </style>
+</head>
+<body class="circuit-bg pcb-grid relative selection:bg-cyan-500 selection:text-black">
+<!-- Background Decorative Visual Elements (Strictly non-blocking) -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<!-- Ambient Radial Light Spots -->
+<div class="absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/3 -right-24 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute bottom-20 -left-20 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Sine Wave subtle graphic line (Top Decorative) -->
+<svg class="absolute top-12 left-0 w-full opacity-15 pointer-events-none" height="50" preserveAspectRatio="none" viewBox="0 0 1200 50">
+<path d="M0,25 Q150,0 300,25 T600,25 T900,25 T1200,25" fill="none" stroke="#00e5ff" stroke-dasharray="4 6" stroke-width="1.5"></path>
+<path d="M0,25 Q150,50 300,25 T600,25 T900,25 T1200,25" fill="none" opacity="0.6" stroke="#b537f2" stroke-width="1.2"></path>
+</svg>
+<!-- Circuit Connection Dots -->
+<div class="absolute top-28 right-8 text-cyan-400/20 text-xs font-mono select-none hidden sm:block animate-float pointer-events-none">
+<span class="">[V_IN = 5.0V]</span><br>
+<span class="">[FREQ = 50Hz]</span>
+</div>
+<div class="absolute bottom-36 left-8 text-purple-400/20 text-xs font-mono select-none hidden sm:block animate-float pointer-events-none" style="animation-delay: 2s;">
+<span class="">[Ω_LOAD = 100k]</span><br>
+<span class="">[STATUS = ACTIVE]</span>
+</div>
+</div>
+<!-- Main Container -->
+<main class="relative z-10 max-w-xl mx-auto px-4 py-8 sm:py-12 flex flex-col items-center min-h-screen">
+<!-- HEADER SECTION -->
+<header class="w-full text-center flex flex-col items-center fade-up delay-1">
+<!-- Association Logo with glowing neon border container -->
+<a class="relative group cursor-pointer mb-5 block" href="https://t.me/saeeiru" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-3xl blur-md opacity-45 group-hover:opacity-80 transition duration-500 animate-pulse-glow"></div>
+<div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-[#090d18] p-2 border border-cyan-400/40 shadow-2xl flex items-center justify-center overflow-hidden">
+<img alt="لوگوی انجمن علمی مهندسی برق دانشگاه بین‌المللی امام رضا(ع)" class="w-full h-full object-contain rounded-xl drop-shadow-[0_0_12px_rgba(0,229,255,0.6)] transform group-hover:scale-105 transition duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwQqCW3Aafv6mxKDiQZX8t-z3LHfS7juEbY6qi2l5dGTiQGxCkEZKIun2V1Cvf_lFdRI9zAP-rxfa6vIlOiA7_WtXC9wHN6eMgD-8F_3QZACQSvTTxEZcga7osF_QOPdnrbgua6kt1Iz7QLUeyoriNIr_1N5rrIF6TCNjnEF6vGS-BtlOOdbbrNo6y5HMQQoD_eFf5xMqacrewVtLAl3YiHS4EL8wh3JDnwnPONMOqNQj4JP_MAQ_NJTtPoYlhHGM-Sg">
+<!-- Subtle corner tech notches -->
+<div class="absolute top-1 right-1 w-2 h-2 border-t-2 border-r-2 border-cyan-400 pointer-events-none"></div>
+<div class="absolute bottom-1 left-1 w-2 h-2 border-b-2 border-l-2 border-cyan-400 pointer-events-none"></div>
+</div>
+</a>
+<!-- University & Association Badge -->
+<div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-cyan-950/50 border border-cyan-500/30 text-cyan-300 text-xs font-medium mb-3 shadow-[0_0_10px_rgba(0,229,255,0.15)]">
+<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+<span class="">دانشگاه بین‌المللی امام رضا(ع)</span>
+</div>
+<!-- Main Title -->
+<h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2 flex items-center justify-center gap-2">
+<span class="text-cyan-400 drop-shadow-[0_0_8px_rgba(0,229,255,0.8)]">⚡️</span>
+<span class="bg-gradient-to-l from-white via-slate-100 to-cyan-200 bg-clip-text text-transparent">
+          انجمن علمی مهندسی برق
+        </span>
+</h1>
+<!-- Catchy Subtitles -->
+<p class="text-base sm:text-lg font-semibold text-cyan-300/90 mb-1">
+        از اینجا با انجمن برق همراه شو! 🚀
+      </p>
+<p class="text-xs sm:text-sm text-slate-400 flex items-center justify-center gap-1 font-normal mt-1">
+<span class="">یک کلیک تا انجمن برق فاصله داری!</span>
+<span class="text-cyan-400 font-bold">⚡️</span>
+</p>
+<!-- Tech Divider Line with Sinusoidal Pulse -->
+<div class="w-full max-w-xs flex items-center justify-center gap-2 my-6 opacity-60">
+<div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
+<div class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_#00e5ff]"></div>
+<div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
+</div>
+</header>
+<!-- LINKS SECTION (Mobile First Cards - All fully clickable native <a> tags) -->
+<section aria-label="راه‌های ارتباطی" class="w-full flex flex-col gap-3.5 sm:gap-4 my-2">
+<!-- 1. کانال تلگرام -->
+<a class="glass-card rounded-2xl p-4 sm:p-4.5 flex items-center justify-between group fade-up delay-2" data-link-name="telegram-channel" href="https://t.me/saeeiru" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<div class="flex items-center gap-3.5 sm:gap-4">
+<!-- Icon Badge -->
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500/20 to-cyan-500/10 border border-sky-400/40 flex items-center justify-center text-sky-400 group-hover:scale-110 group-hover:border-sky-300 transition duration-300 shadow-[0_0_12px_rgba(56,189,248,0.2)] shrink-0">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path>
+</svg>
+</div>
+<!-- Titles -->
+<div class="text-right">
+<div class="text-white font-bold text-base sm:text-lg group-hover:text-cyan-300 transition duration-200">
+              کانال تلگرام
+            </div>
+
+</div>
+</div>
+<!-- Action CTA Button -->
+<div class="flex items-center gap-1 text-xs font-semibold text-cyan-400 group-hover:text-cyan-200 bg-cyan-500/10 group-hover:bg-cyan-500/25 px-3 py-2 rounded-xl border border-cyan-500/30 transition duration-200 shrink-0">
+<span class="">ورود به کانال</span>
+<span class="transform group-hover:-translate-x-1 transition duration-200">←</span>
+</div>
+</a>
+<!-- 2. گروه تلگرام -->
+<a class="glass-card rounded-2xl p-4 sm:p-4.5 flex items-center justify-between group fade-up delay-3" data-link-name="telegram-group" href="https://t.me/saeeiru_gap" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<div class="flex items-center gap-3.5 sm:gap-4">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600/20 to-cyan-600/10 border border-blue-400/40 flex items-center justify-center text-blue-400 group-hover:scale-110 group-hover:border-blue-300 transition duration-300 shadow-[0_0_12px_rgba(96,165,250,0.2)] shrink-0">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="text-right">
+<div class="text-white font-bold text-base sm:text-lg group-hover:text-cyan-300 transition duration-200">
+              گروه تلگرام
+            </div>
+
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-semibold text-cyan-400 group-hover:text-cyan-200 bg-cyan-500/10 group-hover:bg-cyan-500/25 px-3 py-2 rounded-xl border border-cyan-500/30 transition duration-200 shrink-0">
+<span class="">ورود به گروه</span>
+<span class="transform group-hover:-translate-x-1 transition duration-200">←</span>
+</div>
+</a>
+<!-- 3. کانال ایتا -->
+<a class="glass-card rounded-2xl p-4 sm:p-4.5 flex items-center justify-between group fade-up delay-4" data-link-name="eitaa-channel" href="https://eitaa.com/saeeiru" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<div class="flex items-center gap-3.5 sm:gap-4">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 border border-amber-400/40 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:border-amber-300 transition duration-300 shadow-[0_0_12px_rgba(251,191,36,0.2)] shrink-0">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.1 21.9l5.053-1.2c1.42.77 3.037 1.2 4.847 1.2 5.523 0 10-4.477 10-10S17.523 2 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"></path>
+</svg>
+</div>
+<div class="text-right">
+<div class="text-white font-bold text-base sm:text-lg group-hover:text-amber-300 transition duration-200">
+              کانال ایتا
+            </div>
+
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-semibold text-amber-400 group-hover:text-amber-200 bg-amber-500/10 group-hover:bg-amber-500/25 px-3 py-2 rounded-xl border border-amber-500/30 transition duration-200 shrink-0">
+<span class="">ورود به کانال</span>
+<span class="transform group-hover:-translate-x-1 transition duration-200">←</span>
+</div>
+</a>
+<!-- 4. اینستاگرام -->
+<a class="glass-card rounded-2xl p-4 sm:p-4.5 flex items-center justify-between group fade-up delay-5" data-link-name="instagram" href="https://instagram.com/saeeiru" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<div class="flex items-center gap-3.5 sm:gap-4">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500/20 via-purple-500/20 to-rose-500/10 border border-pink-400/40 flex items-center justify-center text-pink-400 group-hover:scale-110 group-hover:border-pink-300 transition duration-300 shadow-[0_0_12px_rgba(244,114,182,0.2)] shrink-0">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+</svg>
+</div>
+<div class="text-right">
+<div class="text-white font-bold text-base sm:text-lg group-hover:text-pink-300 transition duration-200 flex items-center gap-1.5">
+<span class=""><br></span>
+<span class="">اینستاگرام</span>
+</div>
+
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-semibold text-pink-400 group-hover:text-pink-200 bg-pink-500/10 group-hover:bg-pink-500/25 px-3 py-2 rounded-xl border border-pink-500/30 transition duration-200 shrink-0">
+<span class="">مشاهده صفحه</span>
+<span class="transform group-hover:-translate-x-1 transition duration-200">←</span>
+</div>
+</a>
+<!-- 5. یوتیوب -->
+<a class="glass-card rounded-2xl p-4 sm:p-4.5 flex items-center justify-between group fade-up delay-6" data-link-name="youtube" href="https://youtube.com/@saeeiru" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<div class="flex items-center gap-3.5 sm:gap-4">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600/20 to-rose-600/10 border border-red-400/40 flex items-center justify-center text-red-500 group-hover:scale-110 group-hover:border-red-300 transition duration-300 shadow-[0_0_12px_rgba(239,68,68,0.2)] shrink-0">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path>
+</svg>
+</div>
+<div class="text-right">
+<div class="text-white font-bold text-base sm:text-lg group-hover:text-red-300 transition duration-200 flex items-center gap-1.5">
+<span class=""><br></span>
+<span class="">یوتیوب</span>
+</div>
+
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-semibold text-red-400 group-hover:text-red-200 bg-red-500/10 group-hover:bg-red-500/25 px-3 py-2 rounded-xl border border-red-500/30 transition duration-200 shrink-0">
+<span class="">مشاهده کانال</span>
+<span class="transform group-hover:-translate-x-1 transition duration-200">←</span>
+</div>
+</a>
+<!-- 6. آپارات -->
+<a class="glass-card rounded-2xl p-4 sm:p-4.5 flex items-center justify-between group fade-up delay-7" data-link-name="aparat" href="https://aparat.com/saeeiru" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<div class="flex items-center gap-3.5 sm:gap-4">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500/20 to-pink-600/10 border border-rose-400/40 flex items-center justify-center text-rose-400 group-hover:scale-110 group-hover:border-rose-300 transition duration-300 shadow-[0_0_12px_rgba(251,113,133,0.2)] shrink-0">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"></path>
+</svg>
+</div>
+<div class="text-right">
+<div class="text-white font-bold text-base sm:text-lg group-hover:text-rose-300 transition duration-200 flex items-center gap-1.5">
+<span class=""><br></span>
+<span class="">آپارات</span>
+</div>
+
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-semibold text-rose-400 group-hover:text-rose-200 bg-rose-500/10 group-hover:bg-rose-500/25 px-3 py-2 rounded-xl border border-rose-500/30 transition duration-200 shrink-0">
+<span class="">مشاهده کانال</span>
+<span class="transform group-hover:-translate-x-1 transition duration-200">←</span>
+</div>
+</a>
+</section>
+<!-- SECTION: روابط عمومی اسرار (Distinct High-Tech Special Card) -->
+<section aria-label="روابط عمومی اسرار" class="w-full my-4 fade-up delay-8">
+<div class="relative overflow-hidden rounded-3xl p-5 sm:p-6 bg-gradient-to-b from-[#11162b]/95 to-[#0c1020]/95 backdrop-blur-xl border border-purple-500/35 shadow-[0_8px_32px_0_rgba(181,55,242,0.15)]">
+<!-- Subtle Purple Circuit Watermark -->
+<div class="absolute -top-10 -left-10 w-32 h-32 bg-purple-600/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -right-10 w-32 h-32 bg-cyan-600/15 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-4 border-b border-purple-500/20 pb-3">
+<div class="flex items-center gap-2">
+<span class="text-xl"><br></span>
+<h2 class="text-white font-bold text-base sm:text-lg bg-gradient-to-l from-purple-200 to-white bg-clip-text text-transparent">
+              روابط عمومی «اسرار»
+            </h2>
+</div>
+<span class="text-[11px] font-mono tracking-wider text-purple-300/80 bg-purple-500/15 px-2.5 py-1 rounded-full border border-purple-500/30">
+            پاسخگویی مستقیم
+          </span>
+</div>
+<p class="text-xs text-slate-300 mb-4 leading-relaxed">
+          جهت ارتباط مستقیم با ادمین روابط عمومی، ارسال پیشنهادات، انتقادات و همکاری در رویدادها:
+        </p>
+<!-- Two Action Buttons (Telegram & Eitaa) -->
+<div class="grid grid-cols-2 gap-3 relative z-20">
+<!-- روابط عمومی تلگرام -->
+<a class="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-gradient-to-r from-sky-600/20 to-blue-600/20 hover:from-sky-600/35 hover:to-blue-600/35 border border-sky-400/40 hover:border-sky-300 text-sky-200 font-semibold text-xs sm:text-sm transition duration-200 shadow-sm active:scale-95 cursor-pointer pointer-events-auto" data-link-name="asrar-telegram" href="https://t.me/saeeiru_asrar" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<svg class="w-4 h-4 text-sky-400 shrink-0 pointer-events-none" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path>
+</svg>
+<span class="">تلگرام</span>
+
+</a>
+<!-- روابط عمومی ایتا -->
+<a class="flex items-center justify-center gap-2 py-3 px-3 rounded-xl bg-gradient-to-r from-amber-600/20 to-orange-600/20 hover:from-amber-600/35 hover:to-orange-600/35 border border-amber-400/40 hover:border-amber-300 text-amber-200 font-semibold text-xs sm:text-sm transition duration-200 shadow-sm active:scale-95 cursor-pointer pointer-events-auto" data-link-name="asrar-eitaa" href="https://eitaa.com/saeeiru_asrar" rel="noopener noreferrer" target="_blank" style="cursor: pointer;">
+<svg class="w-4 h-4 text-amber-400 shrink-0 pointer-events-none" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2.1 21.9l5.053-1.2c1.42.77 3.037 1.2 4.847 1.2 5.523 0 10-4.477 10-10S17.523 2 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"></path>
+</svg>
+<span class="">ایتا</span>
+
+</a>
+</div>
+</div>
+</section>
+<!-- SECTION: EMAIL (ایمیل انجمن) -->
+<section aria-label="ایمیل انجمن" class="w-full my-1 fade-up delay-9">
+<a class="glass-card rounded-2xl p-4 sm:p-4.5 flex items-center justify-between group border-cyan-500/20" data-link-name="email" href="mailto:saeeiru@gmail.com" style="cursor: pointer;">
+<div class="flex items-center gap-3.5 sm:gap-4">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-400/40 flex items-center justify-center text-emerald-400 group-hover:scale-110 group-hover:border-emerald-300 transition duration-300 shadow-[0_0_12px_rgba(52,211,153,0.2)] shrink-0">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="text-right">
+<div class="text-white font-bold text-base sm:text-lg group-hover:text-emerald-300 transition duration-200 flex items-center gap-1.5">
+<span class=""><br></span>
+<span class="">ایمیل انجمن</span>
+</div>
+
+</div>
+</div>
+<div class="flex items-center gap-1 text-xs font-semibold text-emerald-400 group-hover:text-emerald-200 bg-emerald-500/10 group-hover:bg-emerald-500/25 px-3.5 py-2 rounded-xl border border-emerald-500/30 transition duration-200 shrink-0">
+<span class="">ارسال ایمیل</span>
+
+</div>
+</a>
+</section>
+<!-- FOOTER SECTION -->
+<footer class="w-full text-center mt-10 mb-4 pt-6 border-t border-slate-800/80 flex flex-col items-center gap-2 fade-up delay-9">
+<!-- Association & University Credentials -->
+<div class="text-sm font-bold text-slate-200">
+        انجمن علمی مهندسی برق
+      </div>
+<div class="text-xs text-slate-400">
+        دانشگاه بین‌المللی امام رضا(ع)
+      </div>
+<!-- Electrical Slogan Badge -->
+<div class="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#080d19] border border-cyan-500/25 text-xs text-cyan-300 shadow-[0_0_15px_rgba(0,229,255,0.1)]">
+<span class="">با ما یاد بگیر، تجربه کن و بساز</span>
+<span class="text-cyan-400 font-extrabold animate-bounce">⚡️</span>
+</div>
+<!-- Tech Status Minimalist Tag -->
+<div class="text-[11px] font-mono text-slate-400 mt-3 flex items-center gap-2">
+<span class=""><br></span>
+
+<span class="text-emerald-400 flex items-center gap-1"></span>
+</div>
+</footer>
+</main>
+<!-- Fully verified click handler to guarantee reliable opening across all browsers -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Find all interactive links
+      const links = document.querySelectorAll('a[href]');
+      
+      links.forEach(link => {
+        // Guarantee clickable cursor and clean event flow
+        link.style.cursor = 'pointer';
+        
+        // Additional reliable click handler that guarantees navigation even in sandboxed iframes
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (!href) return;
+          
+          if (href.startsWith('mailto:')) {
+            window.location.href = href;
+          } else {
+            window.open(href, '_blank', 'noopener,noreferrer');
+          }
+        });
+      });
+    });
+  </script>
+
+
+
+
+
+
+</body></html>
